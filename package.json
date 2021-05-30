@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "webpack --config webpack.dev.js",
     "start": "webpack serve --open --config webpack.dev.js",
-    "build": "webpack --config webpack.prod.js" 
+    "build": "webpack --config webpack.prod.js"
   },
   "repository": {
     "type": "git",
@@ -24,5 +24,9 @@
     "webpack": "^5.38.1",
     "webpack-cli": "^4.7.0",
     "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "lodash": "^4.17.21"
   }
 }
