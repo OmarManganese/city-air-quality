@@ -58,8 +58,8 @@ async function getUserPositionAqi(){
 
 async function setUserPositionMessage(){
   await getUserPosition();
-  if(userLatitude && userLongitude){
-    let userAqi = await getUserPositionAqi();
+  let userAqi = await getUserPositionAqi();
+  if(userAqi){
     userPositionMessage = `The air quality index at your position is ${userAqi}.`;  
   } else if(!userPositionMessage){
     userPositionMessage = "Data about the air quality index at your position is not available";
