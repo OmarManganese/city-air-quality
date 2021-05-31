@@ -22,7 +22,7 @@ html {
     text-align: center;
 }
 
-h1, h2, label {
+h1, h2, p, label {
     color: #e4e4e4; 
 }
 
@@ -33,6 +33,11 @@ h1 {
 
 h2 {
     font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    font-size: 1.5rem;
 }
 
 #user-position-aqi, #searched-city-aqi {
