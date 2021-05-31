@@ -3,10 +3,12 @@ import axios from "axios";
 import "./style.css";
 
 const aqicnApiKey = process.env.AQICN_API_KEY;
-const aqicnBaseUrl = "https://aqicn.org";
+const aqicnBaseUrl = "http://api.waqi.info";
 
 let userLatitude;
 let userLongitude;
+let userPositionMessage;
+let searchedCityMessage;
 
 function success(pos){
     userLatitude = pos.coords.latitude;
@@ -16,40 +18,47 @@ function success(pos){
 function error(err) {
     switch(err.code) {
       case err.PERMISSION_DENIED:
-        console.log("User denied the request for Geolocation.")
+        userPositionMessage = "User denied the request for Geolocation.";
         break;
       case err.POSITION_UNAVAILABLE:
-        console.log("Location information is unavailable.")
+        userPositionMessage = "Location information is unavailable.";
         break;
       case err.TIMEOUT:
-        console.log("The request to get user location timed out.")
+        userPositionMessage = "The request to get user location timed out.";
         break;
       case err.UNKNOWN_ERROR:
-        console.log("An unknown error occurred.")
+        userPositionMessage = "An unknown error occurred.";
         break;
     }
   }
 
-async function getUserPositionAQ(){
+async function getUserPositionAqi(){
   try{
-    const aq = await axios.get(`${aqicnBaseUrl}/feed/geo:${userLatitude};${userLongitude}/?token=${aqicnApiKey}`)
+    const response = await axios.get(`${aqicnBaseUrl}/feed/geo:${userLatitude};${userLongitude}/?token=${aqicnApiKey}`)
+    console.log(response);
+    let userAqi = _.get(response, "data.data.aqi");
+    console.log(userAqi);
   } catch(error){
     console.log(error);
   }
 }
 
-async function getCityAQ(){
+async function getCityAqi(){
   try{
-    const aq = await axios.get(`${aqicnBaseUrl}/feed/${city}/?token=${aqicnApiKey}`)
+    const response = await axios.get(`${aqicnBaseUrl}/feed/${city}/?token=${aqicnApiKey}`)
+    console.log(response);
   } catch(error){
-
+    console.log(error);
   }
 }
 
 
-const container = document.createElement("div");
-container.setAttribute("id", "container");
-
-
-
 navigator.geolocation.getCurrentPosition(success, error);
+
+if(userLatitude && userLongitude){
+  getUserPositionAqi();
+} else {
+  userLatitude = 10.3;
+  userLongitude = 20.7;
+  getUserPositionAqi();
+}
