@@ -10,55 +10,70 @@ let userLongitude;
 let userPositionMessage;
 let searchedCityMessage;
 
-function success(pos){
-    userLatitude = pos.coords.latitude;
-    userLongitude = pos.coords.longitude;
-}
+let userPositionAqiDiv = document.getElementById("user-position-aqi");
+let searchedCityAqiDiv = document.getElementById("searched-city-aqi");
+let cityInput = document.getElementById("city-input");
+let searchButton = document.getElementById("search-button");
 
-function error(err) {
-    switch(err.code) {
-      case err.PERMISSION_DENIED:
-        userPositionMessage = "User denied the request for Geolocation.";
-        break;
-      case err.POSITION_UNAVAILABLE:
-        userPositionMessage = "Location information is unavailable.";
-        break;
-      case err.TIMEOUT:
-        userPositionMessage = "The request to get user location timed out.";
-        break;
-      case err.UNKNOWN_ERROR:
-        userPositionMessage = "An unknown error occurred.";
-        break;
-    }
-  }
 
 async function getUserPositionAqi(){
   try{
     const response = await axios.get(`${aqicnBaseUrl}/feed/geo:${userLatitude};${userLongitude}/?token=${aqicnApiKey}`)
-    console.log(response);
-    let userAqi = _.get(response, "data.data.aqi");
-    console.log(userAqi);
+    return _.get(response, "data.data.aqi");
   } catch(error){
     console.log(error);
   }
 }
+
+async function setUserPositionMessage(pos){
+  userLatitude = pos.coords.latitude;
+  userLongitude = pos.coords.longitude;
+
+  if(userLatitude && userLongitude){
+    let userAqi = await getUserPositionAqi();
+    userPositionMessage = `The air quality index at your position is ${userAqi}.`;
+  } else {
+    userPositionMessage = "Data about the air quality index at your position is not available";
+  }
+}
+
+function getCurrentPositionError(err) {
+  switch(err.code) {
+    case err.PERMISSION_DENIED:
+      userPositionMessage = "User denied the request for Geolocation.";
+      break;
+    case err.POSITION_UNAVAILABLE:
+      userPositionMessage = "Location information is unavailable.";
+      break;
+    case err.TIMEOUT:
+      userPositionMessage = "The request to get user location timed out.";
+      break;
+    case err.UNKNOWN_ERROR:
+      userPositionMessage = "An unknown error occurred.";
+      break;
+  }
+}
+
+navigator.geolocation.getCurrentPosition(setUserPositionMessage, getCurrentPositionError);
+console.log(userPositionMessage);
 
 async function getCityAqi(){
   try{
-    const response = await axios.get(`${aqicnBaseUrl}/feed/${city}/?token=${aqicnApiKey}`)
-    console.log(response);
+    const response = await axios.get(`${aqicnBaseUrl}/feed/${cityInput.value}/?token=${aqicnApiKey}`)
+    return _.get(response, "data.data.aqi");
   } catch(error){
     console.log(error);
   }
 }
+ async function setSearchedCityMessage(){
+   let cityAqi = await getCityAqi();
+   searchedCityMessage = `The air quality index at ${cityInput.value} is ${cityAqi}`;
+ }
 
 
-navigator.geolocation.getCurrentPosition(success, error);
+// let userPositionMessageParagraph = document.createElement("p");
+// userPositionMessageParagraph.innerHTML = userPositionMessage;
+// userPositionAqiDiv.appendChild(userPositionMessageParagraph);
 
-if(userLatitude && userLongitude){
-  getUserPositionAqi();
-} else {
-  userLatitude = 10.3;
-  userLongitude = 20.7;
-  getUserPositionAqi();
-}
+ 
+/*searchButton.onclick */
