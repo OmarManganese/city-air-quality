@@ -1,5 +1,6 @@
 import _ from "lodash";
 import axios from "axios";
+import "./style.css";
 
 const aqicnApiKey = process.env.AQICN_API_KEY;
 const aqicnBaseUrl = "https://aqicn.org";

@@ -1,0 +1,68 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    background-color: #464646;
+}
+
+#caq-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+h1, h2, label {
+    color: #e4e4e4; 
+}
+
+h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+#user-position-aq, #searched-city-aq {
+    width: 100%;
+    border: 2px solid #e4e4e4;
+    padding: 1rem;
+    text-align: center;
+}
+
+#user-position-aq {
+    margin-bottom: 1rem;
+}
+
+#searched-city-aq h2 {
+    margin-bottom: 0.5rem;
+}
+
+.form-row {
+    margin-bottom: 0.5rem;
+}
+
+label {
+    font-size: 1.5rem;
+}
+
+input[type='text'] {
+    font-size: 1.5rem;
+}
+
+button {
+    font-size: 1rem;
+}
+
