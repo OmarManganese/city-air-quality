@@ -25,16 +25,9 @@ async function getUserPositionAqi(){
   }
 }
 
-async function setUserPositionMessage(pos){
+function getCurrentPositionSuccess(pos){
   userLatitude = pos.coords.latitude;
   userLongitude = pos.coords.longitude;
-
-  if(userLatitude && userLongitude){
-    let userAqi = await getUserPositionAqi();
-    userPositionMessage = `The air quality index at your position is ${userAqi}.`;
-  } else {
-    userPositionMessage = "Data about the air quality index at your position is not available";
-  }
 }
 
 function getCurrentPositionError(err) {
@@ -54,8 +47,26 @@ function getCurrentPositionError(err) {
   }
 }
 
-navigator.geolocation.getCurrentPosition(setUserPositionMessage, getCurrentPositionError);
-console.log(userPositionMessage);
+
+async function setUserPositionMessage(){
+  navigator.geolocation.getCurrentPosition(getCurrentPositionSuccess, getCurrentPositionError);
+  console.log(userLatitude);
+  if(userLatitude && userLongitude){
+    let userAqi = await getUserPositionAqi();
+    userPositionMessage = `The air quality index at your position is ${userAqi}.`;  
+  } else {
+    userPositionMessage = "Data about the air quality index at your position is not available";
+  }
+}
+
+async function createUserPositionMessageParagaph() {
+  await setUserPositionMessage();
+  let userPositionMessageParagraph = document.createElement("p");
+  userPositionMessageParagraph.innerHTML = userPositionMessage;
+  userPositionAqiDiv.appendChild(userPositionMessageParagraph);
+}
+
+createUserPositionMessageParagaph();
 
 async function getCityAqi(){
   try{
@@ -71,9 +82,10 @@ async function getCityAqi(){
  }
 
 
-// let userPositionMessageParagraph = document.createElement("p");
-// userPositionMessageParagraph.innerHTML = userPositionMessage;
-// userPositionAqiDiv.appendChild(userPositionMessageParagraph);
+
+
+
+
 
  
 /*searchButton.onclick */
