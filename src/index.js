@@ -8,7 +8,9 @@ const aqicnBaseUrl = "http://api.waqi.info";
 let userLatitude;
 let userLongitude;
 let userPositionMessage;
+let userPositionAqiAttr;
 let searchedCityMessage;
+let searchedCityAqiAttr;
 
 let userPositionAqiDiv = document.getElementById("user-position-aqi");
 let searchedCityAqiDiv = document.getElementById("searched-city-aqi");
@@ -50,7 +52,10 @@ async function getUserPosition(){
 async function getUserPositionAqi(){
   try{
     const response = await axios.get(`${aqicnBaseUrl}/feed/geo:${userLatitude};${userLongitude}/?token=${aqicnApiKey}`)
-    return _.get(response, "data.data.aqi");
+    return {
+      aqi: _.get(response, "data.data.aqi"),
+      attributions: _.get(response, "data.data.attributions"),
+    }
   } catch(error){
     console.log(error);
   }
@@ -60,7 +65,8 @@ async function setUserPositionMessage(){
   await getUserPosition();
   let userAqi = await getUserPositionAqi();
   if(userAqi){
-    userPositionMessage = `The air quality index in your position is ${userAqi}.`;  
+    userPositionMessage = `The <b>air quality index</b> in your position is <b>${userAqi.aqi}</b>.`; 
+    userPositionAqiAttr = `Data provided by <a href="${userAqi.attributions[0].url}">${userAqi.attributions[0].name}</a>`; 
   } else if(!userPositionMessage){
     userPositionMessage = "Data about the air quality index at your position is not available";
   }
@@ -69,8 +75,11 @@ async function setUserPositionMessage(){
 async function createUserPositionMessageParagaph() {
   await setUserPositionMessage();
   let userPositionMessageParagraph = document.createElement("p");
+  let userPositionAqiAttrParagraph = document.createElement("p");
   userPositionMessageParagraph.innerHTML = userPositionMessage;
+  userPositionAqiAttrParagraph.innerHTML = userPositionAqiAttr;
   userPositionAqiDiv.append(userPositionMessageParagraph);
+  userPositionAqiDiv.append(userPositionAqiAttrParagraph);
 }
 
 createUserPositionMessageParagaph();
