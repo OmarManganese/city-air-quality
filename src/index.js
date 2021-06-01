@@ -12,6 +12,7 @@ let searchedCityMessage;
 
 let userPositionAqiDiv = document.getElementById("user-position-aqi");
 let searchedCityAqiDiv = document.getElementById("searched-city-aqi");
+let searchedCityAqiForm = document.getElementById("searched-city-aqi-form");
 let cityInput = document.getElementById("city-input");
 let searchButton = document.getElementById("search-button");
 
@@ -75,24 +76,37 @@ async function createUserPositionMessageParagaph() {
 
 createUserPositionMessageParagaph();
 
-// async function getCityAqi(){
-//   try{
-//     const response = await axios.get(`${aqicnBaseUrl}/feed/${cityInput.value}/?token=${aqicnApiKey}`)
-//     return _.get(response, "data.data.aqi");
-//   } catch(error){
-//     console.log(error);
-//   }
-// }
-//  async function setSearchedCityMessage(){
-//    let cityAqi = await getCityAqi();
-//    searchedCityMessage = `The air quality index at ${cityInput.value} is ${cityAqi}`;
-//  }
 
+async function getCityAqi(){
+  try{
+    const response = await axios.get(`${aqicnBaseUrl}/feed/${cityInput.value}/?token=${aqicnApiKey}`)
+    return _.get(response, "data.data.aqi");
+  } catch(error){
+    console.log(error);
+  }
+}
+ async function setSearchedCityMessage(){
+   let cityAqi = await getCityAqi();
+   if(cityAqi){
+    searchedCityMessage = `The air quality index at ${cityInput.value} is ${cityAqi}`;
+   } else if(cityInput.value === ""){
+    searchedCityMessage = "Type a city name in the input field above"
+   } else if (!cityAqi === undefined){
+     searchedCityMessage = `Data about the air quality index at ${cityInput.value} is not available`
+   }  
+ }
 
+ async function createSearchedCityMessageParagaph(){
+   await setSearchedCityMessage();
+   let searchedCityMessageParagraph = document.createElement("p");
+  searchedCityMessageParagraph.innerHTML = searchedCityMessage;
+  searchedCityAqiDiv.appendChild(searchedCityMessageParagraph);
+ }
 
-
-
-
-
+ function replaceSubmit(){
+   createSearchedCityMessageParagaph();
+   return false;
+ }
+ searchButton.onclick = createSearchedCityMessageParagaph;
+ searchedCityAqiForm.onsubmit = replaceSubmit;
  
-/*searchButton.onclick */
