@@ -2,6 +2,7 @@
 [![Forks][forks-shield]][forks-url]
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
 
 
 <br />
@@ -119,5 +120,7 @@ Project Link: [https://github.com/OmarManganese/city-air-quality](https://github
 [stars-url]: https://github.com/OmarManganese/city-air-quality/stargazers
 [issues-shield]: https://img.shields.io/github/issues/OmarManganese/city-air-quality?style=for-the-badge
 [issues-url]: https://github.com/OmarManganese/city-air-quality/issues
+[license-shield]: https://img.shields.io/github/license/OmarManganese/city-air-quality?style=for-the-badge
+[license-url]: https://github.com/OmarManganese/city-air-quality/blob/main/LICENSE.txt
 
 
