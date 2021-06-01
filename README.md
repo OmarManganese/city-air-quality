@@ -86,7 +86,7 @@ To get a local copy up and running follow these steps:
 5. Open dist/index.html
 
 ## Demo
-You can try a demo at [this link]().
+You can try a demo at [this link](https://city-air-quality.netlify.app).
 
 <!-- LICENSE -->
 ## License
