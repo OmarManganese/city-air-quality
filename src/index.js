@@ -88,7 +88,10 @@ createUserPositionMessageParagaph();
 async function getCityAqi(){
   try{
     const response = await axios.get(`${aqicnBaseUrl}/feed/${cityInput.value}/?token=${aqicnApiKey}`)
-    return _.get(response, "data.data.aqi");
+    return {
+      aqi: _.get(response, "data.data.aqi"),
+      attributions: _.get(response, "data.data.attributions"),
+    }
   } catch(error){
     console.log(error);
   }
@@ -100,7 +103,8 @@ async function getCityAqi(){
    }
    let cityAqi = await getCityAqi();
    if(cityAqi){
-    searchedCityMessage = `The air quality index in ${cityName} is ${cityAqi}`;
+    searchedCityMessage = `The <b>air quality index</b> in ${cityName} is <b>${cityAqi.aqi}</b>.`;
+    searchedCityAqiAttr = `Data provided by <a href="${cityAqi.attributions[0].url}">${cityAqi.attributions[0].name}</a>`;
    } else if(cityInput.value === ""){
     searchedCityMessage = "Type a city name in the input field above"
    } else if (!cityAqi === undefined){
@@ -109,10 +113,13 @@ async function getCityAqi(){
  }
 
  async function createSearchedCityMessageParagaph(){
-   await setSearchedCityMessage();
-   let searchedCityMessageParagraph = document.createElement("p");
-  searchedCityMessageParagraph.innerHTML = searchedCityMessage;
-  searchedCityAqiDiv.append(searchedCityMessageParagraph);
+    await setSearchedCityMessage();
+    let searchedCityMessageParagraph = document.createElement("p");
+    let searchedCityAqiAttrParagraph = document.createElement("p");
+    searchedCityMessageParagraph.innerHTML = searchedCityMessage;
+    searchedCityAqiAttrParagraph.innerHTML = searchedCityAqiAttr;
+    searchedCityAqiDiv.append(searchedCityMessageParagraph);
+    searchedCityAqiDiv.append(searchedCityAqiAttrParagraph);
  }
 
  function replaceSubmit(){
