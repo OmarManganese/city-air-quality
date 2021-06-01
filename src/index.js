@@ -107,6 +107,6 @@ async function getCityAqi(){
    createSearchedCityMessageParagaph();
    return false;
  }
- searchButton.onclick = createSearchedCityMessageParagaph;
+//  searchButton.onclick = createSearchedCityMessageParagaph;
  searchedCityAqiForm.onsubmit = replaceSubmit;
  
