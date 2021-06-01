@@ -14,7 +14,6 @@ let userPositionAqiDiv = document.getElementById("user-position-aqi");
 let searchedCityAqiDiv = document.getElementById("searched-city-aqi");
 let searchedCityAqiForm = document.getElementById("searched-city-aqi-form");
 let cityInput = document.getElementById("city-input");
-let searchButton = document.getElementById("search-button");
 
 
 function getCoordinates(){
@@ -61,7 +60,7 @@ async function setUserPositionMessage(){
   await getUserPosition();
   let userAqi = await getUserPositionAqi();
   if(userAqi){
-    userPositionMessage = `The air quality index at your position is ${userAqi}.`;  
+    userPositionMessage = `The air quality index in your position is ${userAqi}.`;  
   } else if(!userPositionMessage){
     userPositionMessage = "Data about the air quality index at your position is not available";
   }
@@ -71,7 +70,7 @@ async function createUserPositionMessageParagaph() {
   await setUserPositionMessage();
   let userPositionMessageParagraph = document.createElement("p");
   userPositionMessageParagraph.innerHTML = userPositionMessage;
-  userPositionAqiDiv.appendChild(userPositionMessageParagraph);
+  userPositionAqiDiv.append(userPositionMessageParagraph);
 }
 
 createUserPositionMessageParagaph();
@@ -92,11 +91,11 @@ async function getCityAqi(){
    }
    let cityAqi = await getCityAqi();
    if(cityAqi){
-    searchedCityMessage = `The air quality index at ${cityName} is ${cityAqi}`;
+    searchedCityMessage = `The air quality index in ${cityName} is ${cityAqi}`;
    } else if(cityInput.value === ""){
     searchedCityMessage = "Type a city name in the input field above"
    } else if (!cityAqi === undefined){
-     searchedCityMessage = `Data about the air quality index at ${cityInput.value} is not available`
+     searchedCityMessage = `Data about the air quality index in ${cityInput.value} is not available`
    }  
  }
 
@@ -104,7 +103,7 @@ async function getCityAqi(){
    await setSearchedCityMessage();
    let searchedCityMessageParagraph = document.createElement("p");
   searchedCityMessageParagraph.innerHTML = searchedCityMessage;
-  searchedCityAqiDiv.appendChild(searchedCityMessageParagraph);
+  searchedCityAqiDiv.append(searchedCityMessageParagraph);
  }
 
  function replaceSubmit(){
