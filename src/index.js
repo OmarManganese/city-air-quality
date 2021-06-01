@@ -86,9 +86,13 @@ async function getCityAqi(){
   }
 }
  async function setSearchedCityMessage(){
+   let cityName = cityInput.value;
+   if(!(cityName === "")){
+     cityName = cityName[0].toUpperCase() + cityName.slice(1);
+   }
    let cityAqi = await getCityAqi();
    if(cityAqi){
-    searchedCityMessage = `The air quality index at ${cityInput.value} is ${cityAqi}`;
+    searchedCityMessage = `The air quality index at ${cityName} is ${cityAqi}`;
    } else if(cityInput.value === ""){
     searchedCityMessage = "Type a city name in the input field above"
    } else if (!cityAqi === undefined){
@@ -107,6 +111,6 @@ async function getCityAqi(){
    createSearchedCityMessageParagaph();
    return false;
  }
-//  searchButton.onclick = createSearchedCityMessageParagaph;
+
  searchedCityAqiForm.onsubmit = replaceSubmit;
  
