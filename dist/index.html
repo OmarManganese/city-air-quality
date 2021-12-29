@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>City Air Quality</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <script defer src="bundle.js"></script>
+  </head>
+  <body>
+    <div id="caq-container">
+      <h1>City Air Quality</h1>
+      <div id="user-position-aqi">
+        <h2>Air quality in your position:</h2>
+      </div>
+      <div id="searched-city-aqi">
+        <h2>Air quality in a city of your choice</h2>
+        <form id="searched-city-aqi-form">
+          <div class="form-row">
+            <label for="city-input">City:</label>
+            <input id="city-input" type="text"/>
+          </div>
+          <div class="form-row">
+            <button>Search</button>
+          </div>
+        </form>
+      </div>
+      <p>Data Provided by the <a href="https://waqi.info/">World Air Quality Index
+        project</a></p>
+    </div>
+  </body>
+</html>
